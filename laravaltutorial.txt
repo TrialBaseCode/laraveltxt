@@ -1464,4 +1464,82 @@ less code to bring the databse fetch /id , /name , /etc
 ---> Make Route
 ---> Write samll code
 ---> Test ApI on postman
+ --> to start server //php artisan serve
+
+Note:
+In routes 
+     ---> api.php
+
+           Route::get("dataapi" , [dummyAPI::class,'getDatapi']);
+
+     ---->make controller dummyAPI.php
+          <?php
+
+            namespace App\Http\Controllers;
+
+            use Illuminate\Http\Request;
+
+            class dummyAPI extends Controller
+            {
+               //
+              function getDatapi()
+              {
+                 return ["id"=>1, "name"=>"Anil", "age"=>25];
+              }
+           }
+
+
+39.
+
+GET Data With API
+
+-->Make Controller
+-->Make Model
+-->Write Code for API
+-->Test API on Postman
+
+routes
+---> api.php
+ Route::get("Listdataapi" , [DeviceController::class,'listoddata']);
+
+Create a Controller DeviceController.php
+
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use App\Models\Device;
+use App\Models\Members;
+
+class DeviceController extends Controller
+{
+    //
+    function listoddata()
+    {
+        return Device::all();
+    }
+}
+
+create a modal Device.php
+--> In this specify timestaps and table
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class Device extends Model
+{
+    use HasFactory;
+    public $timestamps=false;
+    public $table="device";
+}
+
+Get value in postman
+
+1. Click + 
+2. GET Search http://localhost:8000/api/Listdataapi
+
+40.
 
