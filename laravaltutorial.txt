@@ -1543,3 +1543,529 @@ Get value in postman
 
 40.
 
+Get API with Params
+--> Pass Params with Routing
+--> Condtion with Route
+--> Apply Condition with Result 
+--> Other Options
+
+
+---------------first work----------
+
+--> api.php
+Route::get("Listdataapi/{id}" , [DeviceController::class,'listoddata']);
+
+---> DeviceController.php
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use App\Models\Device;
+use App\Models\Members;
+
+class DeviceController extends Controller
+{
+    //
+    function listoddata($id)
+    {
+        return Device::find($id);
+    }
+}
+
+--------------Second work both all and number of id-------------------
+
+--> api.php
+
+Route::get("Listdataapi/{id?}" , [DeviceController::class,'listoddata']);
+
+--> DeviceController.php
+
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use App\Models\Device;
+use App\Models\Members;
+
+class DeviceController extends Controller
+{
+    //
+    function listoddata($id=null)
+    {
+        return $id?Device::find($id):Device::all();
+    }
+}
+
+
+
+41.
+
+API With Post Method
+--> Why we use POST method
+--> Setup postman for POST API
+--> Code for Post API
+--> Test API
+
+--> api.php
+
+Route::post("Listadd" , [DeviceController::class,'listdataadd']);
+
+-->  DeviceController.php
+
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use App\Models\Device;
+use App\Models\Members;
+
+class DeviceController extends Controller
+{
+    //
+    function listdataadd(Request $req)
+    {
+        $device = new Device;
+        $device->name = $req->name;
+        $device->member_id =$req->member_id;
+        $result = $device->save();
+        if($result)
+        {
+            return ["result"=>"Data has been saved"];
+        }
+        else{
+            return  ["result"=>"Operation falid"];
+        }
+
+        return ["result"=>"done"];
+    }
+}
+
+--> create modal Device.php
+
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class Device extends Model
+{
+    use HasFactory;
+    public $timestamps=false;
+    public $table="device";
+}
+
+postman
+where first clear all
+then
+POST: ---value
+the go body-->raw ---> Text(select JSON)
+
+write Entery
+{
+    "name":"liza",
+    "member_id":12 
+}
+
+42.
+
+API with put method
+
+Why we use PUT method
+Setup postman for put API
+Code for Put API
+TEst APi
+
+
+Note:
+put any thing update
+
+api.php
+Route::put("Listupdate" , [DeviceController::class,'listdataupdate']);
+
+DeviceController.php
+
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use App\Models\Device;
+use App\Models\Members;
+
+class DeviceController extends Controller
+{
+    //
+    function listdataadd(Request $req)
+    {
+        $device = new Device;
+        $device->name = $req->name;
+        $device->member_id =$req->member_id;
+        $result = $device->save();
+        if($result)
+        {
+            return ["result"=>"Data has been saved"];
+        }
+        else{
+            return  ["result"=>"Operation falid"];
+        }
+
+        return ["result"=>"done"];
+    }
+    function listdataupdate(Request $req){
+         $device = Device::find($req->id);
+         $device->name = $req->name;
+         $device->member_id =$req->member_id;
+         $result = $device->save();
+         if($result)
+         {
+             return ["result"=>"Data has been updated"];
+         }
+         else{
+             return  ["result"=>"Operation falid"];
+         }
+    }
+}
+
+43.
+
+API With Delete Method
+
+--> Why we use Delete method
+--> Setup postman for Delete API
+--> Make Route, Delete Function
+--> Test API
+
+api.php
+
+
+Route::post("Listadd" , [DeviceController::class,'listdataadd']);
+Route::put("Listupdate" , [DeviceController::class,'listdataupdate']);
+Route::delete("Listdelete/{id}" , [DeviceController::class,'listdatadelete']);
+
+DeviceController.php
+
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use App\Models\Device;
+use App\Models\Members;
+
+class DeviceController extends Controller
+{
+    //
+    function listdataadd(Request $req)
+    {
+        $device = new Device;
+        $device->name = $req->name;
+        $device->member_id =$req->member_id;
+        $result = $device->save();
+        if($result)
+        {
+            return ["result"=>"Data has been saved"];
+        }
+        else{
+            return  ["result"=>"Operation falid"];
+        }
+
+        return ["result"=>"done"];
+    }
+    function listdataupdate(Request $req){
+         $device = Device::find($req->id);
+         $device->name = $req->name;
+         $device->member_id =$req->member_id;
+         $result = $device->save();
+         if($result)
+         {
+             return ["result"=>"Data has been updated"];
+         }
+         else{
+             return  ["result"=>"Operation falid"];
+         }
+    }
+    function listdatadelete($id){
+         // for delete code
+         $device = Device::find($id);
+         $result = $device->delete();
+
+         if($result)
+         {
+             return ["result"=>"Data has been deleted"];
+         }
+         else{
+             return  ["result"=>"Delete Operation falid"];
+         }
+
+        // for pass delete statement
+        return ["Result"=>"record has been deleted".$id];
+    }
+}
+
+Notes:
+
+Delete more than one...
+
+44.
+
+Search API
+
+--> Get method with search! Why
+--> Setup postman for API
+--> Make Route, Search Function
+--> Test API
+
+Notes:
+1. Data to be fetch using get
+2. http://localhost:8000/api/Listsearch/{string} to search
+
+--> api.php
+
+Route::post("Listadd" , [DeviceController::class,'listdataadd']);
+Route::put("Listupdate" , [DeviceController::class,'listdataupdate']);
+Route::delete("Listdelete/{id}" , [DeviceController::class,'listdatadelete']);
+Route::get("Listsearch/{name}" , [DeviceController::class,'listdatasearch']);
+
+--> DeviceController.php
+
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use App\Models\Device;
+use App\Models\Members;
+
+class DeviceController extends Controller
+{
+    //
+    function listdataadd(Request $req)
+    {
+        $device = new Device;
+        $device->name = $req->name;
+        $device->member_id =$req->member_id;
+        $result = $device->save();
+        if($result)
+        {
+            return ["result"=>"Data has been saved"];
+        }
+        else{
+            return  ["result"=>"Operation falid"];
+        }
+
+        return ["result"=>"done"];
+    }
+    function listdataupdate(Request $req){
+         $device = Device::find($req->id);
+         $device->name = $req->name;
+         $device->member_id =$req->member_id;
+         $result = $device->save();
+         if($result)
+         {
+             return ["result"=>"Data has been updated"];
+         }
+         else{
+             return  ["result"=>"Operation falid"];
+         }
+    }
+    function listdatadelete($id){
+         // for delete code
+         $device = Device::find($id);
+         $result = $device->delete();
+
+         if($result)
+         {
+             return ["result"=>"Data has been deleted"];
+         }
+         else{
+             return  ["result"=>"Delete Operation falid"];
+         }
+
+        // for pass delete statement
+        return ["Result"=>"record has been deleted".$id];
+    }
+    function listdatasearch($name){
+       return Device::where("name" , $name)->get();
+    }
+}
+
+--> partial name we
+
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use App\Models\Device;
+use App\Models\Members;
+
+class DeviceController extends Controller
+{
+    //
+    function listdataadd(Request $req)
+    {
+        $device = new Device;
+        $device->name = $req->name;
+        $device->member_id =$req->member_id;
+        $result = $device->save();
+        if($result)
+        {
+            return ["result"=>"Data has been saved"];
+        }
+        else{
+            return  ["result"=>"Operation falid"];
+        }
+
+        return ["result"=>"done"];
+    }
+    function listdataupdate(Request $req){
+         $device = Device::find($req->id);
+         $device->name = $req->name;
+         $device->member_id =$req->member_id;
+         $result = $device->save();
+         if($result)
+         {
+             return ["result"=>"Data has been updated"];
+         }
+         else{
+             return  ["result"=>"Operation falid"];
+         }
+    }
+    function listdatadelete($id){
+         // for delete code
+         $device = Device::find($id);
+         $result = $device->delete();
+
+         if($result)
+         {
+             return ["result"=>"Data has been deleted"];
+         }
+         else{
+             return  ["result"=>"Delete Operation falid"];
+         }
+
+        // for pass delete statement
+        return ["Result"=>"record has been deleted".$id];
+    }
+    function listdatasearch($name){
+       return Device::where("name" , "like", "%" .$name."%")->get();
+    }
+}
+
+45.
+
+API Validation
+
+--> Make Route
+--> Add Validation
+--> Save and Return Result
+--> Test API
+
+api.php
+Route::post("Listadd" , [DeviceController::class,'listdataadd']);
+Route::put("Listupdate" , [DeviceController::class,'listdataupdate']);
+Route::delete("Listdelete/{id}" , [DeviceController::class,'listdatadelete']);
+Route::get("Listsearch/{name}" , [DeviceController::class,'listdatasearch']);
+Route::post("Listvalidate" , [DeviceController::class,'listdatavalidate']);
+
+DeviceController.php
+
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use App\Models\Device;
+use App\Models\Members;
+
+// for validation
+use Validator;
+
+class DeviceController extends Controller
+{
+    //
+    function listdataadd(Request $req)
+    {
+        $device = new Device;
+        $device->name = $req->name;
+        $device->member_id =$req->member_id;
+        $result = $device->save();
+        if($result)
+        {
+            return ["result"=>"Data has been saved"];
+        }
+        else{
+            return  ["result"=>"Operation falid"];
+        }
+
+        return ["result"=>"done"];
+    }
+    function listdataupdate(Request $req){
+         $device = Device::find($req->id);
+         $device->name = $req->name;
+         $device->member_id =$req->member_id;
+         $result = $device->save();
+         if($result)
+         {
+             return ["result"=>"Data has been updated"];
+         }
+         else{
+             return  ["result"=>"Operation falid"];
+         }
+    }
+    function listdatadelete($id){
+         // for delete code
+         $device = Device::find($id);
+         $result = $device->delete();
+
+         if($result)
+         {
+             return ["result"=>"Data has been deleted"];
+         }
+         else{
+             return  ["result"=>"Delete Operation falid"];
+         }
+
+        // for pass delete statement
+        return ["Result"=>"record has been deleted".$id];
+    }
+    function listdatasearch($name){
+       return Device::where("name" , "like", "%" .$name."%")->get();
+    }
+    function listdatavalidate(Request $req)
+    {
+        $rules=array(
+            "member_id"=>"required",
+            "name"=>"required | max:4 "
+        );
+        $validator = Validator::make($req->all(),$rules);
+        if($validator->fails())
+        {
+            // return $validator->errors();
+             return response()->json($validator->errors(),401);
+        }
+        else{
+            // return ["a"=>"x"];
+            $device = new Device;
+            $device->name=$req->name;
+            $device->member_id=$req->member_id;
+            $result = $device->save();
+
+            if($result)
+            {
+                return ["result"=>"Data has been validated"];
+            }
+            else{
+                return  ["result"=>"Delete Operation falid"];
+            }
+        }
+       
+    }
+}
+
+
