@@ -2356,6 +2356,38 @@ class UserTableSeeder extends Seeder
 
 Note: See the github
 https://github.com/TrialBaseCode/laraveltxt/blob/main/laaravel_scrtrum.md
+postman work
+1. http://127.0.0.1:8000/api/saclogin-->POST
+-->raw-->JSON
+{
+  //authauntic work //give login/signup/registerform
+  /////// 
+  {
+    "email":"sika@doe.com",
+    "password":12345
+  }
+  /////// 
+}
+
+we get
+{
+    "user": {
+        "id": 4,
+        "name": "sika Doe",
+        "email": "sika@doe.com"
+    },
+    "token": "2|gHTVqAHUbkUSIEJl9C7FrNiC0iVgwh04XgkxLTOn"
+}
+
+2. http://127.0.0.1:8000/api/AllMember-->GET
+  Select--Headers(7) 
+          ---Key               --Value
+             --Authorization     --Bearer 2|gHTVqAHUbkUSIEJl9C7FrNiC0iVgwh04XgkxLTOn
+
+3. http://127.0.0.1:8000/api/Listsearch/S -->GET
+    ---Key               --Value
+             --Authorization     --Bearer 2|gHTVqAHUbkUSIEJl9C7FrNiC0iVgwh04XgkxLTOn
+
 
 48.
 
@@ -2365,3 +2397,30 @@ Upload File with API
 --> write Code for Upload file
 --> Test API and Upload File
 
+1.
+php artisan make:controller FileLoadController
+
+2.
+--> Routes
+      api.php
+      use App\Http\Controllers\FileLoadController;
+      Route::post("fileupload" , [FileLoadController::class,'upload']);
+-->
+
+FileLoadController .php
+
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+
+class FileLoadController extends Controller
+{
+    //
+    function upload(Request $req){
+         // return ["result"=>"pass"];
+        $result=$req->file("file")->store('apiDocs');
+        return ["result"=>$result];
+    }
+}
