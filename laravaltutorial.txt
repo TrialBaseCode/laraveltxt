@@ -2424,3 +2424,25 @@ class FileLoadController extends Controller
         return ["result"=>$result];
     }
 }
+
+49.
+Maintance Mode
+
+--> What is Maintenance Mode
+--> Start Maintenance Mode
+--> Bypass Maintanance Mode
+--> Display Maintanance Mode
+
+see site of laravel
+https://laravel.com/docs/10.x/configuration
+
+Notes:
+Maintance Mode
+php artisan down ->>site will be give 505 maintance mode
+php artisan up   -->> site not in mantance mode
+
+Need to see the website in amntance mode
+php artisan down --secret="1630542a-246b-4b66-afa1-dd72a4c43515"
+
+https://localhost:8000/1630542a-246b-4b66-afa1-dd72a4c43515;
+
