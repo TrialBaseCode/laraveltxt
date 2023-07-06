@@ -1,3 +1,9 @@
+# folder which download from git 
+ - composer install
+ - set up env
+ - then three comand used
+
+
 # Laraval tutoraial Notes
     https://www.youtube.com/watch?v=dJo7zVycSF8&list=PL8p2I9GklV44dF7G_uPK_9ZHCQon15flp&index=2
 
