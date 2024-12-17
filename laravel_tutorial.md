@@ -39,6 +39,7 @@
 
    ## Steps
    - Install Composer(Once)
+     - composer create-project --prefer-dist laravel/laravel restaurant
    - Install Laravel (Once)
    - Make Project
    - Run Project :)
